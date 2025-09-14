@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # The name of the application in the Argo CD UI
+  name: rollout-nginx-demo
+  # CRITICAL: This manifest MUST be created in the 'argocd' namespace
+  namespace: argocd
+spec:
+  # The project this application belongs to
+  project: default
+
+  # Source of the application manifests
+  source:
+    # The URL of your Git repository
+    repoURL: 'https://github.com/jagasworld/rollout-demo.git'
+    # The directory within the repo where your manifests are located
+    path: nginx/.
+    # The branch to track
+    targetRevision: HEAD
+
+  # Destination where the manifests should be deployed
+  destination:
+    # URL for the local cluster
+    server: 'https://kubernetes.default.svc'
+    # The namespace to deploy the demo app into
+    namespace: rollouts-test
+
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
