@@ -8,30 +8,24 @@ spec:
   - git:
       repoURL: https://github.com/jagasworld/rollout-demo.git
       revision: HEAD
-      # Use the 'files' generator to find files matching this path
       files:
       - path: "argo-apps/*.yaml"
 
   template:
     metadata:
-      # Name the Application based on the filename (e.g., 'rollout-demo')
-      name: '{{path.basename | trimSuffix "-application.yaml"}}'
+      # The name is now read from the content of the YAML files
+      name: '{{name}}'
     spec:
       project: default
-      
-      # The 'source' block will be filled in from the content of the matched files
       source:
-        # These values are inherited from the 'generators' section
-        repoURL: '{{ .repoURL }}'
-        targetRevision: '{{ .targetRevision }}'
-        # The 'path' is read directly from the content of each YAML file found
-        path: '{{ .source.path }}' 
-
+        repoURL: https://github.com/jagasworld/rollout-demo.git
+        targetRevision: HEAD
+        # The path is also read from the content of the YAML files
+        path: '{{source.path}}'
       destination:
         server: 'https://kubernetes.default.svc'
-        # Creates a namespace based on the app name, e.g., 'rollout-demo'
-        namespace: '{{path.basename | trimSuffix "-application.yaml"}}'
-
+        # The namespace is now also based on the name from the file content
+        namespace: '{{name}}'
       syncPolicy:
         automated:
           prune: true
