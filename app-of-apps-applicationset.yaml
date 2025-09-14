@@ -10,25 +10,21 @@ spec:
       revision: HEAD
       files:
       - path: "argo-apps/*.yaml"
-
   template:
     metadata:
-      # Use the dot prefix to access the 'name' field from the file
-      name: '{{.name}}'
+      name: '{{.name}}' # Reads 'name' from the file content
     spec:
       project: default
       source:
         repoURL: https://github.com/jagasworld/rollout-demo.git
         targetRevision: HEAD
-        # Use the dot prefix to access the 'source.path' field from the file
-        path: '{{.source.path}}'
+        path: '{{.source.path}}' # Reads 'source.path' from the file content
       destination:
         server: 'https://kubernetes.default.svc'
-        # Use the dot prefix here as well
-        namespace: '{{.name}}'
+        namespace: '{{.name}}' # Creates namespace from 'name' in file content
       syncPolicy:
         automated:
           prune: true
-          selfHeal: true
+          selfHeal: true # This is the key for auto-recreation
         syncOptions:
         - CreateNamespace=true
