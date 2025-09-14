@@ -13,19 +13,19 @@ spec:
 
   template:
     metadata:
-      # The name is now read from the content of the YAML files
-      name: '{{name}}'
+      # Use the dot prefix to access the 'name' field from the file
+      name: '{{.name}}'
     spec:
       project: default
       source:
         repoURL: https://github.com/jagasworld/rollout-demo.git
         targetRevision: HEAD
-        # The path is also read from the content of the YAML files
-        path: '{{source.path}}'
+        # Use the dot prefix to access the 'source.path' field from the file
+        path: '{{.source.path}}'
       destination:
         server: 'https://kubernetes.default.svc'
-        # The namespace is now also based on the name from the file content
-        namespace: '{{name}}'
+        # Use the dot prefix here as well
+        namespace: '{{.name}}'
       syncPolicy:
         automated:
           prune: true
