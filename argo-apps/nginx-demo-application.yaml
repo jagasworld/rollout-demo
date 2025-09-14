@@ -14,7 +14,7 @@ spec:
     # The URL of your Git repository
     repoURL: 'https://github.com/jagasworld/rollout-demo.git'
     # The directory within the repo where your manifests are located
-    path: nginx/.
+    path: rollout-demo-app-manifests/nginx
     # The branch to track
     targetRevision: HEAD
 

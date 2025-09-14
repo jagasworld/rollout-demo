@@ -6,21 +6,16 @@ metadata:
 spec:
   generators:
   - git:
-      # This points to your Git repository
       repoURL: https://github.com/jagasworld/rollout-demo.git
       revision: HEAD
-      # The 'files' generator will find all files matching this path
+      # Use the 'files' generator to find files matching this path
       files:
       - path: "argo-apps/*.yaml"
 
-  # The template for the Applications that will be generated
   template:
     metadata:
-      # Name the Application based on the filename, e.g., 'rollout-demo'
+      # Name the Application based on the filename (e.g., 'rollout-demo')
       name: '{{path.basename | trimSuffix "-application.yaml"}}'
-      # OPTIONAL BUT RECOMMENDED: Add a label to identify apps managed by this ApplicationSet
-      labels:
-        app-of-apps-managed: "true"
     spec:
       project: default
       
@@ -40,6 +35,6 @@ spec:
       syncPolicy:
         automated:
           prune: true
-          selfHeal: true # This ensures apps deleted from the UI are recreated
+          selfHeal: true
         syncOptions:
         - CreateNamespace=true
