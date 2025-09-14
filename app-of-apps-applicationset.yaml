@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: app-of-apps
+  namespace: argocd
+spec:
+  # Use the Git generator to find application manifests
+  generators:
+  - git:
+      repoURL: https://github.com/jagasworld/rollout-demo.git
+      revision: HEAD
+      # Scan this directory for application manifests
+      directories:
+      - path: argo-apps/*
+  # This template will be used to generate the Application resources
+  template:
+    metadata:
+      # The name of the generated app will be the directory name (e.g., 'rollout-demo')
+      name: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/jagasworld/rollout-demo.git
+        targetRevision: HEAD
+        # The path here is templated to point to the correct app manifests
+        path: '{{path.basename}}-app-manifests'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: '{{path.basename}}-test' # e.g., 'rollout-demo-test'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true # <-- This is key for auto-recreation
+        syncOptions:
+        - CreateNamespace=true
