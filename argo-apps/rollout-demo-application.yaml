@@ -12,7 +12,6 @@ spec:
   # Source of the application manifests
   source:
     # The URL of your Git repository
-    name: rollout-demo
     repoURL: 'https://github.com/jagasworld/rollout-demo.git'
     # The directory within the repo where your manifests are located
     path: rollout-demo-app-manifests/rollout-demo
