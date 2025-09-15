@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-app
+  name: root-apps
   namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     path: ./argo-apps/
-    repoURL: https://gitlab.com/Tanmay-Bhat/argocd.git
+    repoURL: https://github.com/jagasworld/rollout-demo.git
     targetRevision: HEAD
   syncPolicy:
     automated:
