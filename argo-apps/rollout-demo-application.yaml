@@ -11,8 +11,8 @@ spec:
     namespace: argocd
   project: default
   source:
-    path: ./Applicationset/charts/monitoring/k8s-dashboard
-    repoURL: https://github.com/tanmay-bhat/ArgoCD.git
+    path: ./rollout-demo-app-manifests/rollout-demo/
+    repoURL: https://github.com/jagasworld/rollout-demo.git
     targetRevision: HEAD
   syncPolicy:
     automated:
