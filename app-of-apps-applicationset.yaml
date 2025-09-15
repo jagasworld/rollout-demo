@@ -1,30 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
-  name: app-of-apps
+  name: root-app
   namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
-  generators:
-  - git:
-      repoURL: https://github.com/jagasworld/rollout-demo.git
-      revision: HEAD
-      files:
-      - path: "argo-apps/*.yaml"
-  template:
-    metadata:
-      name: '{{.name}}' # Reads 'name' from the file content
-    spec:
-      project: default
-      source:
-        repoURL: https://github.com/jagasworld/rollout-demo.git
-        targetRevision: HEAD
-        path: '{{.source.path}}' # Reads 'source.path' from the file content
-      destination:
-        server: 'https://kubernetes.default.svc'
-        namespace: '{{.name}}' # Creates namespace from 'name' in file content
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true # This is the key for auto-recreation
-        syncOptions:
-        - CreateNamespace=true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  project: default
+  source:
+    path: ./argo-apps/
+    repoURL: https://gitlab.com/Tanmay-Bhat/argocd.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,4 +1,4 @@
 # This file provides the unique parameters for the 'rollout-demo' app
 name: rollout-demo
 source:
-  path: rollout-demo-app-manifests/rollout-demo
+  path: ./rollout-demo-app-manifests/rollout-demo
